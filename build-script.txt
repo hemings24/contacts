@@ -1,0 +1,263 @@
+new laravel project:
+cd d:\coding\code\email+website\website\laravel
+laravel new contacts
+cd contacts
+
+database:
+mysql -uroot -p -e "CREATE DATABASE contacts"
+php artisan migrate:install
+php artisan migrate
+
+migration/model user:
+database\migrations\2014_10_12_000000_create_users_table
+php artisan migrate / php artisan migrate:fresh
+app\Models\User
+
+migration/model contact:
+php artisan make:model Contact -m
+app\Models\Contact
+database\migrations\2022_01_04_013604_create_contacts_table
+php artisan migrate
+
+migration/model company:
+php artisan make:migration create_companies_table
+database\migration\2022_01_04_011724_create_companies_table
+php artisan migrate
+php artisan make:model Company
+app\Models\Company
+
+factories:
+database\factories\UserFactory
+php artisan make:factory ContactFactory -m Contact
+database\factories\ContactFactory
+php artisan make:factory CompanyFactory -m Company
+database\factories\CompanyFactory
+
+database seed:
+database\seeders\DatabaseSeeder
+php artisan db:seed / php artisan migrate:fresh --seed
+
+
+controllers:
+php artisan make:controller DashboardController
+php artisan make:controller ContactController
+php artisan make:controller CompanyController --model=Company
+
+
+routes:
+routes\web
+
+
+bootstrap(copy):
+public\css\bootstrap.min.css
+public\css\custom.css
+public\css\jasny-bootstrap.min.css
+public\js\bootstrap.min.js
+public\js\jasny-bootstrap.min.js
+public\js\jquery.min.js
+public\js\popper.min.js
+
+
+layout:
+resources\views\layouts\main.blade
+
+home:
+resources\views\welcome.blade(d)
+resources\views\home.blade
+
+dashboard:
+app\Http\Controllers\DashboardController
+resources\views\dashboard.blade
+
+
+user authentication scaffolding:
+composer require laravel/ui --dev
+php artisan ui:auth
+app\Http\Controllers\Auth\LoginController
+app\Http\Controllers\Auth\RegisterController
+app\Http\Controllers\Auth\ConfirmPasswordController(a)
+app\Http\Controllers\Auth\ForgotPasswordController(a)
+app\Http\Controllers\Auth\ResetPasswordController(a)
+app\Http\Controllers\Auth\VerificationController(a)
+app\Http\Controllers\HomeController(d)
+resources\views\auth\login.blade(a)
+resources\views\auth\register.blade(a)
+resources\views\auth\verify.blade(a)
+resources\views\auth\passwords\confirm.blade(a)
+resources\views\auth\passwords\email.blade(a)
+resources\views\auth\passwords\reset.blade(a)
+resources\views\layouts\app.blade(d)
+resources\views\layouts\main.blade
+routes\web(a)
+composer.json(a)
+composer.lock(a)
+.env
+
+
+email verification:
+app\Http\Controllers\ContactController
+app\Models\User
+
+
+confirm password:
+php artisan make:controller Settings\AccountController
+app\Http\Controllers\Settings\AccountController
+
+
+edit profile:
+php artisan make:controller Settings\ProfileController
+app\Http\Controllers\Settings\ProfileController
+resources\views\layouts\main.blade
+resources\views\settings\profile.blade
+
+
+update user profile:
+php artisan make:request ProfileUpdateRequest
+app\Http\Requests\ProfileUpdateRequest
+app\Http\Controllers\Settings\ProfileController
+app\Models\User
+resources\views\settings\profile.blade
+
+
+contacts:
+app\Http\Controllers\ContactController
+app\Models\Contact
+resources\views\contacts\index.blade
+resources\views\contacts\show.blade
+resources\views\contacts\create.blade
+resources\views\contacts\edit.blade
+resources\views\contacts\_form.blade
+resources\views\layouts\_delete-form.blade
+resources\views\contacts\_filter.blade
+public\js\app.js
+
+
+form request validation:
+php artisan make:request ContactRequest
+app\Http\Requests\ContactRequest
+app\Http\Controllers\ContactController
+
+
+pagination:
+php artisan vendor:publish
+choose <laravel-pagination>
+app\Providers\AppServiceProvider
+app\Http\Controllers\ContactController
+resources\views\contacts\index.blade
+resources\views\vendor\pagination\bootstrap-4.blade
+<nav class="mt-4">
+<ul class="pagination justify-content-center">
+
+
+local/global search scopes:
+app\Http\Controllers\ContactController
+app\Models\Contact
+app\Scopes\FilterScope
+app\Scopes\SearchScope
+app\Scopes\ContactSearchScope
+app\Scopes\FilterSearchScope
+
+
+providers:
+app\Providers\RouteServiceProvider
+
+
+api resourceful route:
+php artisan make:controller API/ContactController --api
+app\Http\Controllers\API\ContactController
+routes\api
+
+
+companies:
+app\Http\Controllers\CompanyController
+app\Http\Controllers\ContactController
+resources\views\companies\index.blade
+resources\views\companies\show.blade
+resources\views\companies\create.blade
+resources\views\companies\edit.blade
+resources\views\companies\_form.blade
+resources\views\layouts\_delete-form.blade
+resources\views\companies\_filter.blade
+
+
+create resource controller for companies /
+form request validation:
+php artisan make:request CompanyRequest
+app\Http\Requests\CompanyRequest
+app\Http\Controllers\CompanyController
+
+
+api resourceful route:
+php artisan make:controller API/CompanyController --api --model=Company
+app\Http\Controllers\API\CompanyController
+routes\api
+
+
+refactoring flash message:
+resources\views\layouts\_message.blade
+resources\views\companies\index.blade
+resources\views\contacts\index.blade
+resources\views\settings\profile.blade
+
+
+create basic upload file logic:
+app\Http\Controllers\Settings\ProfileController
+app\Http\Requests\ProfileUpdateRequest
+app\Models\User
+public\upload\profile-picture.jpeg
+resources\views\settings\profile.blade
+
+set up file storage:
+config\filesystems
+copy FILESYSTEM_DISK=public to .env
+php artisan storage:link
+public\storage is pointer to storage\app\public
+
+implementing file storage:
+app\Http\Requests\ProfileUpdateRequest
+app\Models\User
+resources\views\settings\profile.blade
+
+
+detecting n+1 problem automatically:
+composer require beyondcode/laravel-query-detector --dev
+php artisan vendor:publish
+[2 ] Provider: BeyondCode\QueryDetector\QueryDetectorServiceProvider
+composer.json
+composer.lock
+config\querydetector
+
+
+3 different ways debugging queries:
+app\Providers\AppServiceProvider
+composer require barryvdh/laravel-debugbar --dev
+composer.json
+composer.lock
+storage\debugbar\.gitignore
+
+
+summary:
+
+app\Models\Contact
+app\Models\Company
+app\Models\User
+
+app\Http\Controllers\ContactController
+app\Http\Controllers\CompanyController
+app\Http\Controllers\UserController
+routes\web
+
+app\Http\Requests\ContactRequest
+app\Http\Requests\CompanyRequest
+
+app\Providers\RouteServiceProvider
+
+app\Scopes\FilterScope
+app\Scopes\SearchScope
+app\Scopes\ContactSearchScope
+app\Scopes\FilterSearchScope
+
+resources\views\contacts\_form.blade
+resources\views\companies\_form.blade
+resources\views\contacts\_filter.blade
+resources\views\companies\_filter.blade
