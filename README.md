@@ -1,5 +1,5 @@
 # contacts
-CRUD for Company Contacts
+Laravel CRUD for Company Contacts
 
 1. Download contacts
 2. Copy folder to Laravel projects folder
