@@ -3,7 +3,7 @@ Laravel CRUD for Company Contacts
 
 1. Download contacts
 2. Copy folder to Laravel projects folder
-3. Copy contacts\.env.example to contacts\.env
+3. Copy contacts\\.env.example to contacts\\.env
 4. Update .env MAIL_X values to preferred SMTP settings
 5. CLI: cd contacts
 6. composer install
